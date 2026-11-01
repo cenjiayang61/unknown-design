@@ -95,6 +95,11 @@
 .main-links-item:last-child[data-astro-cid-pux6a34n] {
   height: calc(var(--ud-lip, 151px) * 3);
 }
+/* INDEX 亮卡不参与折叠：自身 hover 与前后卡 hover 的级联位移全部归零，
+   位置恒定、完整展示，点击即跳转 /projects/（2026-11-01 用户定稿） */
+.main-links-item:last-child[data-astro-cid-pux6a34n] {
+  --hover: 0 !important;
+}
 .main-links[data-astro-cid-pux6a34n] .link[data-astro-cid-pux6a34n] {
   height: 100%;
 }
