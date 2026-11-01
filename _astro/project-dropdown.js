@@ -15,32 +15,38 @@
   if (window.__UNKNOWN_PROJECT_DD__) return;
   window.__UNKNOWN_PROJECT_DD__ = true;
 
+  /* ===== 部署环境路径前缀 =====
+   * GitHub Pages 项目站点挂在 /unknown-design/ 子路径下，本地开发在根路径。
+   * 注册表里的链接/图片统一为根路径写法，运行时按环境自动加前缀。 */
+  var BASE = location.pathname.indexOf('/unknown-design') === 0 ? '/unknown-design' : '';
+  function H(p) { return BASE + p; }
+
   /* ===== 项目注册表（新增项目加在这里） ===== */
   var PROJECTS = [
-    { title: 'JMC Garden', cn: 'JMC Garden', sub: 'Restaurant · Foshan Nanhai', href: '/unknown-design/story/jmc-garden/', img: '/unknown-design/images/projects/jmc-garden/01.jpg', date: '2026-11' },
-    { title: 'Legent Bar', cn: 'Legent Bar', sub: 'Bar · Foshan Chancheng', href: '/unknown-design/story/legent-bar/', img: '/unknown-design/images/projects/legent-bar/01.jpg', date: '2026-11' },
-    { title: 'Xiaoxi Jiazuo · Mixc', cn: '小西家作 · 万象城', sub: 'Dessert · Guangzhou Mixc', href: '/unknown-design/story/xiaoxi-mixc/', img: '/unknown-design/images/projects/xiaoxi-mixc/01.jpg', date: '2026-10' },
-    { title: 'Erlun Sweetroom', cn: '贰轮甜室 · 顺德', sub: 'Dessert · Foshan Shunde', href: '/unknown-design/story/erlun-sd/', img: '/unknown-design/images/projects/erlun-sd/01.jpg', date: '2026-10' },
-    { title: 'Le Pangzi Pizza', cn: '乐胖子手工pizza', sub: 'Pizzeria · Guilin', href: '/unknown-design/story/lepangzi/', img: '/unknown-design/images/projects/lepangzi/01.jpg', date: '2026-09' },
-    { title: 'Xiaoxi Jiazuo · Miaqian', cn: '小西家作 · 庙前西街', sub: 'Dessert · Guangzhou Miaqian Xijie', href: '/unknown-design/story/xiaoxi-miaqian/', img: '/unknown-design/images/projects/xiaoxi-miaqian/01.jpg', date: '2026-05' },
-    { title: 'Erlun Sweetroom', cn: '贰轮甜室 · 禅城', sub: 'Dessert · Foshan Chancheng', href: '/unknown-design/story/erlun-cc/', img: '/unknown-design/images/projects/erlun-cc/01.jpg', date: '2026-04' },
-    { title: 'Xiaoxi Jiazuo · Pavilion', cn: '小西家作 · 亭台', sub: 'Dessert · Guangzhou Taikoo Li', href: '/unknown-design/story/xiaoxi/', img: '/unknown-design/images/projects/xiaoxi/01.jpg', date: '2026-01' },
-    { title: 'Guyongxing', cn: '顾涌兴', sub: 'Restaurant · Shanghai Panlong', href: '/unknown-design/story/guyongxing/', img: '/unknown-design/images/projects/guyongxing/01.jpg', date: '2026-01' },
-    { title: 'Mini Bar', cn: 'Mini Bar', sub: 'Lounge Bar · Qingyuan', href: '/unknown-design/story/mini-bar/', img: '/unknown-design/images/projects/mini-bar/01.jpg', date: '2025-12' },
-    { title: 'Chushishan', cn: '初拾山', sub: 'Restaurant · Foshan', href: '/unknown-design/story/chushishan/', img: '/unknown-design/images/projects/chushishan/01.jpg', date: '2025-12' },
-    { title: 'Xiaoxi Jiazuo · Cloud', cn: '小西家作 · 云朵', sub: 'Dessert · Guangzhou Ali Center', href: '/unknown-design/story/xiaoxi-ali/', img: '/unknown-design/images/projects/xiaoxi-ali/01.jpg', date: '2025-04' },
-    { title: 'nini cucina', cn: 'nini cucina', sub: 'Restaurant · Guilin', href: '/unknown-design/story/nini-cucina/', img: '/unknown-design/images/projects/nini-cucina/01.jpg', date: '2025-04' },
-    { title: 'Jiao Pho', cn: '蕉Pho', sub: 'Vietnamese · Foshan Nanhai', href: '/unknown-design/story/jiaopho/', img: '/unknown-design/images/projects/jiaopho/01.jpg', date: '2025-03' },
-    { title: 'Ruchujian', cn: '如初见', sub: 'Sweet Soup & Buns · Guangzhou', href: '/unknown-design/story/ruchujian/', img: '/unknown-design/images/projects/ruchujian/01.jpg', date: '2025-01' },
-    { title: 'HOLY CREAM', cn: 'HOLY CREAM', sub: 'Dessert · Foshan Chancheng', href: '/unknown-design/story/holy-cream/', img: '/unknown-design/images/projects/holy-cream/01.jpg', date: '2024-12' },
-    { title: 'nini brunch', cn: 'nini brunch', sub: 'Brunch · Guilin', href: '/unknown-design/story/nini-brunch/', img: '/unknown-design/images/projects/nini-brunch/01.jpg', date: '2024-12' },
-    { title: 'Lan Zhenzhen', cn: '兰真真清真包子甜食铺', sub: 'Baozi & Sweets · Shanghai', href: '/unknown-design/story/lanzhenzhen/', img: '/unknown-design/images/projects/lanzhenzhen/01.jpg', date: '2024-12' },
-    { title: 'Banshan Teahouse', cn: '半山茶舍', sub: 'Teahouse · Foshan Shunde', href: '/unknown-design/story/banshan/', img: '/unknown-design/images/projects/banshan/01.jpg', date: '2024-12' },
-    { title: 'Yinyou Teahouse', cn: '隐幽茶舍', sub: 'Teahouse · Foshan Shunde', href: '/unknown-design/story/yinyou/', img: '/unknown-design/images/projects/yinyou/01.jpg', date: '2024-12' },
-    { title: 'olayks', cn: 'olayks', sub: 'Exhibition Booth · Shanghai', href: '/unknown-design/story/olayks/', img: '/unknown-design/images/projects/olayks/01.jpg', date: '2024-10' },
-    { title: 'Rice Husk & Malt', cn: '稻壳语麦芽', sub: 'Bakery · Foshan Shunde', href: '/unknown-design/story/rice-malt/', img: '/unknown-design/images/projects/rice-malt/01.jpg', date: '2024-10' },
-    { title: 'chuchulab', cn: 'chuchulab', sub: 'Patisserie · Guangzhou Polytrade', href: '/unknown-design/story/chuchulab/', img: '/unknown-design/images/projects/chuchulab/01.jpg', date: '2024-01' },
-    { title: 'soho !', cn: 'soho !', sub: 'Café · Foshan Nanhai', href: '/unknown-design/story/soho/', img: '/unknown-design/images/projects/soho/01.jpg', date: '2023-05' }
+    { title: 'JMC Garden', cn: 'JMC Garden', sub: 'Restaurant · Foshan Nanhai', href: '/story/jmc-garden/', img: '/images/projects/jmc-garden/01.jpg', date: '2026-11' },
+    { title: 'Legent Bar', cn: 'Legent Bar', sub: 'Bar · Foshan Chancheng', href: '/story/legent-bar/', img: '/images/projects/legent-bar/01.jpg', date: '2026-11' },
+    { title: 'Xiaoxi Jiazuo · Mixc', cn: '小西家作 · 万象城', sub: 'Dessert · Guangzhou Mixc', href: '/story/xiaoxi-mixc/', img: '/images/projects/xiaoxi-mixc/01.jpg', date: '2026-10' },
+    { title: 'Erlun Sweetroom', cn: '贰轮甜室 · 顺德', sub: 'Dessert · Foshan Shunde', href: '/story/erlun-sd/', img: '/images/projects/erlun-sd/01.jpg', date: '2026-10' },
+    { title: 'Le Pangzi Pizza', cn: '乐胖子手工pizza', sub: 'Pizzeria · Guilin', href: '/story/lepangzi/', img: '/images/projects/lepangzi/01.jpg', date: '2026-09' },
+    { title: 'Xiaoxi Jiazuo · Miaqian', cn: '小西家作 · 庙前西街', sub: 'Dessert · Guangzhou Miaqian Xijie', href: '/story/xiaoxi-miaqian/', img: '/images/projects/xiaoxi-miaqian/01.jpg', date: '2026-05' },
+    { title: 'Erlun Sweetroom', cn: '贰轮甜室 · 禅城', sub: 'Dessert · Foshan Chancheng', href: '/story/erlun-cc/', img: '/images/projects/erlun-cc/01.jpg', date: '2026-04' },
+    { title: 'Xiaoxi Jiazuo · Pavilion', cn: '小西家作 · 亭台', sub: 'Dessert · Guangzhou Taikoo Li', href: '/story/xiaoxi/', img: '/images/projects/xiaoxi/01.jpg', date: '2026-01' },
+    { title: 'Guyongxing', cn: '顾涌兴', sub: 'Restaurant · Shanghai Panlong', href: '/story/guyongxing/', img: '/images/projects/guyongxing/01.jpg', date: '2026-01' },
+    { title: 'Mini Bar', cn: 'Mini Bar', sub: 'Lounge Bar · Qingyuan', href: '/story/mini-bar/', img: '/images/projects/mini-bar/01.jpg', date: '2025-12' },
+    { title: 'Chushishan', cn: '初拾山', sub: 'Restaurant · Foshan', href: '/story/chushishan/', img: '/images/projects/chushishan/01.jpg', date: '2025-12' },
+    { title: 'Xiaoxi Jiazuo · Cloud', cn: '小西家作 · 云朵', sub: 'Dessert · Guangzhou Ali Center', href: '/story/xiaoxi-ali/', img: '/images/projects/xiaoxi-ali/01.jpg', date: '2025-04' },
+    { title: 'nini cucina', cn: 'nini cucina', sub: 'Restaurant · Guilin', href: '/story/nini-cucina/', img: '/images/projects/nini-cucina/01.jpg', date: '2025-04' },
+    { title: 'Jiao Pho', cn: '蕉Pho', sub: 'Vietnamese · Foshan Nanhai', href: '/story/jiaopho/', img: '/images/projects/jiaopho/01.jpg', date: '2025-03' },
+    { title: 'Ruchujian', cn: '如初见', sub: 'Sweet Soup & Buns · Guangzhou', href: '/story/ruchujian/', img: '/images/projects/ruchujian/01.jpg', date: '2025-01' },
+    { title: 'HOLY CREAM', cn: 'HOLY CREAM', sub: 'Dessert · Foshan Chancheng', href: '/story/holy-cream/', img: '/images/projects/holy-cream/01.jpg', date: '2024-12' },
+    { title: 'nini brunch', cn: 'nini brunch', sub: 'Brunch · Guilin', href: '/story/nini-brunch/', img: '/images/projects/nini-brunch/01.jpg', date: '2024-12' },
+    { title: 'Lan Zhenzhen', cn: '兰真真清真包子甜食铺', sub: 'Baozi & Sweets · Shanghai', href: '/story/lanzhenzhen/', img: '/images/projects/lanzhenzhen/01.jpg', date: '2024-12' },
+    { title: 'Banshan Teahouse', cn: '半山茶舍', sub: 'Teahouse · Foshan Shunde', href: '/story/banshan/', img: '/images/projects/banshan/01.jpg', date: '2024-12' },
+    { title: 'Yinyou Teahouse', cn: '隐幽茶舍', sub: 'Teahouse · Foshan Shunde', href: '/story/yinyou/', img: '/images/projects/yinyou/01.jpg', date: '2024-12' },
+    { title: 'olayks', cn: 'olayks', sub: 'Exhibition Booth · Shanghai', href: '/story/olayks/', img: '/images/projects/olayks/01.jpg', date: '2024-10' },
+    { title: 'Rice Husk & Malt', cn: '稻壳语麦芽', sub: 'Bakery · Foshan Shunde', href: '/story/rice-malt/', img: '/images/projects/rice-malt/01.jpg', date: '2024-10' },
+    { title: 'chuchulab', cn: 'chuchulab', sub: 'Patisserie · Guangzhou Polytrade', href: '/story/chuchulab/', img: '/images/projects/chuchulab/01.jpg', date: '2024-01' },
+    { title: 'soho !', cn: 'soho !', sub: 'Café · Foshan Nanhai', href: '/story/soho/', img: '/images/projects/soho/01.jpg', date: '2023-05' }
   ];
 
   /* 首页堆叠卡由暗到光的灰阶（第 6 张 All Projects 为浅色"门外的光"） */
@@ -81,8 +87,8 @@
 
   /* ---------- 1. header dropdown ---------- */
   function itemHTML(p) {
-    return '<a class="proj-dd__item" href="' + p.href + '" data-transition="secondaryNav">' +
-      '<span class="proj-dd__thumb"><img src="' + p.img + '" alt="" loading="lazy" decoding="async" draggable="false"></span>' +
+    return '<a class="proj-dd__item" href="' + H(p.href) + '" data-transition="secondaryNav">' +
+      '<span class="proj-dd__thumb"><img src="' + H(p.img) + '" alt="" loading="lazy" decoding="async" draggable="false"></span>' +
       '<span class="proj-dd__meta"><span class="proj-dd__title">' + esc(p.title) + '</span>' +
       '<span class="proj-dd__sub">' + esc(p.sub) + '</span></span></a>';
   }
@@ -92,7 +98,7 @@
     var html = '<div class="proj-dd__inner">' +
       '<p class="proj-dd__head">Latest Projects</p>' +
       latest(5).map(itemHTML).join('') +
-      '<a class="proj-dd__all" href="/unknown-design/projects/" data-transition="secondaryNav">All Projects</a>' +
+      '<a class="proj-dd__all" href="' + H('/projects/') + '" data-transition="secondaryNav">All Projects</a>' +
       '</div>';
     for (var i = 0; i < nodes.length; i++) if (nodes[i].innerHTML !== html) nodes[i].innerHTML = html;
   }
@@ -111,12 +117,12 @@
     var lists = document.querySelectorAll('[data-latest-folders]');
     if (!lists.length) return;
     var l = latest(5);
-    var html = l.map(function (p, i) { return folderItem(i, SHADES[i] || SHADES[SHADES.length - 1], p.href, p.sub, p.title, pd(p.date)); }).join('') +
-      folderItem(l.length, LIGHT, '/unknown-design/projects/', 'Index', 'All Projects');
+    var html = l.map(function (p, i) { return folderItem(i, SHADES[i] || SHADES[SHADES.length - 1], H(p.href), p.sub, p.title, pd(p.date)); }).join('') +
+      folderItem(l.length, LIGHT, H('/projects/'), 'Index', 'All Projects');
     for (var i = 0; i < lists.length; i++) {
       var ul = lists[i];
       var have = Array.prototype.map.call(ul.querySelectorAll('a.link'), function (a) { return a.getAttribute('href'); }).join('|');
-      var want = l.map(function (p) { return p.href; }).concat('/unknown-design/projects/').join('|');
+      var want = l.map(function (p) { return H(p.href); }).concat(H('/projects/')).join('|');
       if (have === want) continue;            // static HTML already matches the registry
       ul.style.setProperty('--total', l.length + 1);
       ul.innerHTML = html;
@@ -131,11 +137,11 @@
     for (var g = 0; g < grids.length; g++) {
       var grid = grids[g];
       var have = Array.prototype.map.call(grid.querySelectorAll('a.ud-pcard'), function (a) { return a.getAttribute('href'); }).join('|');
-      if (have === all.map(function (p) { return p.href; }).join('|')) continue;
+      if (have === all.map(function (p) { return H(p.href); }).join('|')) continue;
       grid.innerHTML = all.map(function (p, i) {
         var no = (i + 1 < 10 ? '0' : '') + (i + 1);
-        return '<a class="ud-pcard" href="' + p.href + '">' +
-          '<span class="ud-pcard__img"><img src="' + p.img + '" alt="' + esc(p.title) + '" loading="lazy" decoding="async" draggable="false"></span>' +
+        return '<a class="ud-pcard" href="' + H(p.href) + '">' +
+          '<span class="ud-pcard__img"><img src="' + H(p.img) + '" alt="' + esc(p.title) + '" loading="lazy" decoding="async" draggable="false"></span>' +
           '<span class="ud-pcard__meta"><span class="ud-pcard__no">' + no + '</span>' +
           '<span class="ud-pcard__names"><span class="ud-pcard__cn ud-cn">' + esc(p.cn || '') + '</span>' +
           '<span class="ud-pcard__en">' + esc(p.title) + '</span></span>' +
@@ -165,14 +171,15 @@
     var lists = document.querySelectorAll('ul[data-menu-projects]');
     if (!lists.length) return;
     var all = sorted();
-    var want = all.map(function (p) { return p.href; }).concat('/unknown-design/projects/').join('|');
+    var want = all.map(function (p) { return H(p.href); }).concat(H('/projects/')).join('|');
     for (var i = 0; i < lists.length; i++) {
       var ul = lists[i];
+      if (!ul.hasAttribute('data-lenis-prevent-touch')) ul.setAttribute('data-lenis-prevent-touch', '');
       var have = Array.prototype.map.call(ul.querySelectorAll('a.link'), function (a) { return a.getAttribute('href'); }).join('|');
       if (have === want) continue;               // 静态 HTML 已与注册表一致（无 JS 时的兜底）
       var html = all.map(function (p, k) {
-        return menuItem(k, menuShade(k, all.length), p.href, p.sub, p.title, 'navToStory');
-      }).join('') + menuItem(all.length, LIGHT, '/unknown-design/projects/', 'Index', 'All Projects', 'secondaryNav');
+        return menuItem(k, menuShade(k, all.length), H(p.href), p.sub, p.title, 'navToStory');
+      }).join('') + menuItem(all.length, LIGHT, H('/projects/'), 'Index', 'All Projects', 'secondaryNav');
       ul.style.setProperty('--total', all.length + 1);
       ul.innerHTML = html;
     }
