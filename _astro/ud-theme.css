@@ -217,3 +217,23 @@ html.ud-motion [data-ud-reveal] .ud-w{opacity:.16;transition:opacity .2s linear}
   line-height: 1.16;
   letter-spacing: 0.01em;
 }
+
+/* ------------------------------------------------------------
+   大字金句永远在图片上层（2026-11-01 用户定稿：默认规则，全站适用）
+   现象：引言节的 display-3-horizontal 大字向右出血，延到本节/相邻节
+   的图片区域时被图片盖住（如 our-trip Legent Bar 的 BARTENDER）。
+   规则：大字 position:relative + z-index:2，压过同层图片（图片包装层
+   未设 z-index，按 DOM 序在后）。若祖先动画层形成堆叠上下文导致失效，
+   需在其文字包装容器上再补 z-index。
+   ------------------------------------------------------------ */
+.display-3-horizontal {
+  position: relative;
+  z-index: 2;
+}
+
+/* 大字金句所在引言节：整节压在相邻图片节之上（横向滚动相邻节遮盖大字尾部，
+   如 our-trip Legent Bar 的 BARTENDER 被下一节图墙盖住；2026-11-01 用户定稿：
+   文字永远在图片前面，同类情况默认照此处理） */
+section[data-astro-cid-gkjiuh6b] {
+  z-index: 2;
+}

@@ -171,10 +171,12 @@
   function renderMenu() {
     var lists = document.querySelectorAll('ul[data-menu-projects]');
     if (!lists.length) return;
-    var all = sorted();
+    /* 2026-11-01 用户定稿：菜单只展示最近年份的前 20 个项目（+Index 卡） */
+    var all = sorted().slice(0, 20);
     var want = all.map(function (p) { return H(p.href); }).concat(H('/projects/')).join('|');
     for (var i = 0; i < lists.length; i++) {
       var ul = lists[i];
+      if (!ul.hasAttribute('data-lenis-prevent')) ul.setAttribute('data-lenis-prevent', '');
       if (!ul.hasAttribute('data-lenis-prevent-touch')) ul.setAttribute('data-lenis-prevent-touch', '');
       var have = Array.prototype.map.call(ul.querySelectorAll('a.link'), function (a) { return a.getAttribute('href'); }).join('|');
       if (have === want) continue;               // 静态 HTML 已与注册表一致（无 JS 时的兜底）
