@@ -223,15 +223,16 @@
     }).observe(document.body, { childList: true, subtree: true });
   }
 
-  /* ---------- 5. 返回时恢复菜单打开状态 ----------
-   * 场景：从菜单进入某页后按浏览器"返回"，期望回到菜单还开着的页面，
-   * 而不是关着菜单的裸页（2026-11-01 用户真机反馈）。
-   * 实现：点击菜单内链接时写 sessionStorage 标记；
-   *       taxi 转场以 popstate（浏览器返回）到达且标记存在时，自动重开菜单。
-   * 任何非菜单的站内点击会清掉标记，保证语义 = "从这个页面经菜单离开"。 */
+  /* ---------- 5. 返回时恢复菜单打开状态 + 菜单内"当前页"链接接管 ----------
+   * 场景A：从菜单进入某页后按浏览器"返回"，应回到菜单还开着的页面。
+   *   实现：菜单内链接点击时写 sessionStorage 标记；popstate（返回）一到
+   *   立即重开菜单——菜单层 [data-navigation] 在 taxi 换页时是持久的，
+   *   先打开即可盖住旧页面，底层换页在菜单背后完成，不会闪出裸首页。
+   * 场景B：菜单里点"当前页"的链接（如首页点 INTRO、历程页点 HISTORY），
+   *   转场引擎 taxi 对同 URL 只 preventDefault 然后忽略（onClick 源码确认），
+   *   表现为"点击无反应"。接管：关菜单回页面并回到顶部。 */
   function menuReturn() {
     var KEY = 'udMenuReturn';
-    function isOpenable() { return !!document.querySelector('[data-toggle-menu-button]'); }
     function openMenu() {
       var btn = document.querySelector('[data-toggle-menu-button]');
       if (btn) btn.click();
@@ -243,34 +244,33 @@
       if (menuLink) {
         try {
           var u = new URL(menuLink.href, location.href);
-          if (u.origin === location.origin && !u.hash) sessionStorage.setItem(KEY, '1');
+          if (u.origin !== location.origin) return;
+          if (!u.hash && u.pathname === location.pathname && u.search === location.search) {
+            /* 场景B：目标就是当前页，主动关菜单 + 回顶部 */
+            e.preventDefault();
+            var cb = document.querySelector('[data-close-menu]');
+            if (cb) cb.click();
+            setTimeout(function () {
+              try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (err2) { window.scrollTo(0, 0); }
+            }, 700);
+          } else {
+            sessionStorage.setItem(KEY, '1');   // 场景A：经菜单离开，记录待恢复
+          }
         } catch (err) {}
       } else if (t.closest('a[href]')) {
         sessionStorage.removeItem(KEY);   // 经普通页面链接离开：取消恢复
       }
     }, true);
-    var pending = false;
     window.addEventListener('popstate', function () {
-      pending = sessionStorage.getItem(KEY) === '1';
-      if (pending) setTimeout(function () {   // 兜底：转场事件万一未到达，4s 后直接恢复
-        if (pending && isOpenable()) { pending = false; openMenu(); }
-      }, 4000);
+      if (sessionStorage.getItem(KEY) !== '1') return;
+      sessionStorage.removeItem(KEY);
+      openMenu();   // 立即开：盖住旧页面，避免返回时闪出裸首页
+      /* 兜底：万一首次点击被转场打断，2.5s 后确认一次（已开着则不动） */
+      setTimeout(function () {
+        var n = document.querySelector('[data-navigation]');
+        if (n && getComputedStyle(n).visibility !== 'visible') openMenu();
+      }, 2500);
     });
-    var tries = 0;
-    (function bindTaxi() {
-      if (window._taxi) {
-        window._taxi.on('NAVIGATE_END', function (info) {
-          if (!pending) return;
-          if (info && info.trigger === 'popstate') {
-            pending = false;
-            sessionStorage.removeItem(KEY);
-            setTimeout(openMenu, 900);      // 等新页面进场淡入结束后再开菜单
-          }
-        });
-      } else if (++tries < 100) {
-        setTimeout(bindTaxi, 100);
-      }
-    })();
   }
 
   function init() { renderAll(); bind(); menuReturn(); }
