@@ -33,15 +33,16 @@
 }
 
 /* ------------------------------------------------------------
-   P1-3 + P2-1 + P3-2 MENU 菜单单列可读设计（全端，2026-11-01）
-   沿革：≤767px 单列方案当天早些时候定稿；当晚用户反馈桌面端同样不可用——
-   25 张堆叠卡每张只露约 4% 卡唇：分类小字可见、项目大字被上层卡盖住、
-   hover 大字(display-1 约 9vw 级)超宽被视口左右裁切、且大字只有英文缺中文。
-   → 单列列表升级为全端方案；中文名由注册表渲染（大字中文 + 英文小字副行）
+   P1-3 + P2-1 + P3-2 MENU 菜单重设计（2026-11-01 两轮迭代定稿）
+   第一轮：≤767px 单列可读列表（手机档，用户定稿，保留）
+   第二轮：用户否决桌面小字列表，指名要对齐首页 SELECTED 的大字堆叠卡
+   海报风（附截图定稿）→ 桌面档改为：卡唇 = 分类·地点—日期小字 + 超大
+   项目名（左对齐单行出血），卡底由暗到浅渐变，纵向排列容器内滚动。
+   中文名由注册表渲染（大字中文；英文副行仅手机档显示）。
    - JS 开合动画作用在 --offset-y / autoAlpha 上，transform:none 后
      开合仍有遮罩淡入淡出（手机档已真机验证），点击跳转不受影响
-   - 行高用 auto，最小高度交给 .link 的 min-height（minmax 实测不随内容长高）
-   - 背景统一深墨保证对比度；最后一张"门外的光"亮卡保留反色点缀
+   - 行高用 auto，最小高度交给 .link（minmax 实测不随内容长高）
+   - 最后一张"门外的光"亮卡保留反色点缀
    ------------------------------------------------------------ */
 /* 全端基础（移动优先尺寸） */
 .main-links[data-astro-cid-pux6a34n] {
@@ -92,30 +93,46 @@
 .main-links .main-links-item:last-child .link {
   background-color: #F1F0ED;
 }
-/* 桌面档：列表居中限宽、行距更舒展、悬停反馈 */
+/* 桌面档：大字堆叠卡海报风（2026-11-01 用户定稿，对齐首页 SELECTED 效果：
+   每张卡唇 = 小字"分类 · 地点 — 日期" + 超大项目名，卡底由暗到浅渐变，
+   大字左对齐、单行、允许向右出血裁切；卡片纵向排列、容器内滚动） */
 @media (min-width: 47.9375rem) {
   .main-links[data-astro-cid-pux6a34n] {
-    width: min(100%, 60rem);
-    margin-inline: auto;
+    width: 100%;
+    margin-inline: 0;
   }
   .main-links[data-astro-cid-pux6a34n] .link[data-astro-cid-pux6a34n] {
-    min-height: 78px;
-    row-gap: 5px;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    transition: background-color .25s cubic-bezier(.4, 0, .2, 1);
+    min-height: 0;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    row-gap: 4px;
+    padding-left: 56px;
+    padding-right: 32px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    /* 恢复注册表逐卡渐变底色（menuShade 由暗到浅），与 SELECTED 一致 */
+    background-color: var(--bg, #161615);
+    transition: filter .25s cubic-bezier(.4, 0, .2, 1);
   }
   .main-links[data-astro-cid-pux6a34n] .link[data-astro-cid-pux6a34n]:hover {
-    background-color: #1F1F1D;
+    filter: brightness(1.22);
   }
   .main-links[data-astro-cid-pux6a34n] .link .micro-3 {
-    font-size: 11.5px;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    opacity: 0.8;
   }
+  /* 海报级大字：保留 display-1 的冲击力，容器内单行出血 */
   .main-links-item-title[data-astro-cid-pux6a34n] {
-    font-size: clamp(22px, 2.2vw, 32px) !important;
+    font-size: clamp(56px, 5.4vw, 104px) !important;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
   }
+  /* 海报卡里隐藏英文副行，保持卡唇干净（中文名项目仅手机档显示副行） */
   .ud-menu-en[data-astro-cid-pux6a34n] {
-    font-size: 11px;
+    display: none;
   }
 }
 
