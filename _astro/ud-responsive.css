@@ -33,109 +33,35 @@
 }
 
 /* ------------------------------------------------------------
-   P1-3 + P2-1 + P3-2 MENU 菜单重设计（2026-11-01 两轮迭代定稿）
-   第一轮：≤767px 单列可读列表（手机档，用户定稿，保留）
-   第二轮：用户否决桌面小字列表，指名要对齐首页 SELECTED 的大字堆叠卡
-   海报风（附截图定稿）→ 桌面档改为：卡唇 = 分类·地点—日期小字 + 超大
-   项目名（左对齐单行出血），卡底由暗到浅渐变，纵向排列容器内滚动。
-   中文名由注册表渲染（大字中文；英文副行仅手机档显示）。
-   - JS 开合动画作用在 --offset-y / autoAlpha 上，transform:none 后
-     开合仍有遮罩淡入淡出（手机档已真机验证），点击跳转不受影响
-   - 行高用 auto，最小高度交给 .link（minmax 实测不随内容长高）
-   - 最后一张"门外的光"亮卡保留反色点缀
+   MENU 菜单（2026-11-01 第四轮定稿）：与首页底部 SELECTED 完全同款
+   原理：首页底部(.links-as-folders)与菜单(.main-links)是同一种堆叠结构，
+   首页好看是因为只有 6 张卡（每唇≈15dvh，大字可见）；菜单塞 25 张
+   每唇只剩≈4%，大字被盖（用户最初"太密集看不全"的根因）。
+   方案：结构/样式零改动（英文大字、分类·地点小字、渐变卡底、圆角、
+   hover 联动全部原版），只把容器拉高为 25×固定唇高 并让覆盖层滚动：
+   - .navigation 改 overflow-y:auto（原生滚动；lenis 白名单已挂在 UL 上）
+   - .main-links 高度 = var(--total) × --ud-lip（transform 不产生滚动区，
+     必须用真实高度撑开滚动）
+   - 条目 translateY 从"100%/total×index"改为"index×唇高"（固定像素，
+     不随卡片自身高度膨胀；hover 位移同步改 px；--offset-y 开合动画项
+     封顶 60vh，防止卡片本身过高导致滑入距离过大）
    ------------------------------------------------------------ */
-/* 全端基础（移动优先尺寸） */
-.main-links[data-astro-cid-pux6a34n] {
-  grid-template-columns: 1fr;
-  grid-auto-rows: auto;
-  gap: 1px;
-  padding: 1px 0 0 1px;
-  background-color: #2A2A28;
+.navigation[data-astro-cid-pux6a34n] {
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }
-/* 取消堆叠：原规则把 25 项全部钉在同一个格子里再 translateY 扇形展开 */
+.navigation[data-astro-cid-pux6a34n]::-webkit-scrollbar {
+  display: none;
+}
+.main-links[data-astro-cid-pux6a34n] {
+  --ud-lip: clamp(90px, 14dvh, 160px);
+  height: calc(var(--total, 25) * var(--ud-lip));
+}
 .main-links-item[data-astro-cid-pux6a34n] {
-  grid-column-start: auto;
-  grid-row-start: auto;
-  transform: none;
+  --translate-y: calc(var(--index, 0) * var(--ud-lip) + var(--hover, 0) * 20px);
+  transform: translateY(calc(var(--translate-y) + var(--offset-y, 0) * 60vh));
 }
-.main-links[data-astro-cid-pux6a34n] .link[data-astro-cid-pux6a34n] {
-  height: 100%;              /* 填满所在行（行高由同行最高卡片决定），矮卡不留空带 */
-  min-height: 64px;
-  justify-content: center;
-  row-gap: 4px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  background-color: #161615;
-}
-/* 小标签：分类 · 地点 */
-.main-links[data-astro-cid-pux6a34n] .link .micro-3 {
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  opacity: 0.62;
-}
-/* 大标题：从"隐藏占位"恢复为紧凑可读（display-1 原为 9vw 级别） */
-.main-links-item-title[data-astro-cid-pux6a34n] {
-  opacity: 1 !important;
-  font-size: clamp(17px, 5vw, 22px) !important;
-  letter-spacing: 0.02em;
-  margin-top: 0 !important;
-}
-/* 中文项目名下的英文原名副行（注册表 menuItem 渲染） */
-.ud-menu-en[data-astro-cid-pux6a34n] {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.55;
-}
-/* 最后一张"门外的光"：保持亮卡反色（ud-theme 已将其文字压为深墨） */
-.main-links .main-links-item:last-child .link {
-  background-color: #F1F0ED;
-}
-/* 桌面档：大字堆叠卡海报风（2026-11-01 用户定稿，对齐首页 SELECTED 效果：
-   每张卡唇 = 小字"分类 · 地点 — 日期" + 超大项目名，卡底由暗到浅渐变，
-   大字左对齐、单行、允许向右出血裁切；卡片纵向排列、容器内滚动） */
-@media (min-width: 47.9375rem) {
-  .main-links[data-astro-cid-pux6a34n] {
-    width: 100%;
-    margin-inline: 0;
-  }
-  .main-links[data-astro-cid-pux6a34n] .link[data-astro-cid-pux6a34n] {
-    min-height: 0;
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-    row-gap: 4px;
-    padding-left: 56px;
-    padding-right: 32px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    /* 恢复注册表逐卡渐变底色（menuShade 由暗到浅），与 SELECTED 一致 */
-    background-color: var(--bg, #161615);
-    transition: filter .25s cubic-bezier(.4, 0, .2, 1);
-  }
-  .main-links[data-astro-cid-pux6a34n] .link[data-astro-cid-pux6a34n]:hover {
-    filter: brightness(1.22);
-  }
-  .main-links[data-astro-cid-pux6a34n] .link .micro-3 {
-    font-size: 12px;
-    letter-spacing: 0.18em;
-    opacity: 0.8;
-  }
-  /* 海报级大字：保留 display-1 的冲击力，容器内单行出血 */
-  .main-links-item-title[data-astro-cid-pux6a34n] {
-    font-size: clamp(56px, 5.4vw, 104px) !important;
-    line-height: 0.92;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-  }
-  /* 海报卡里隐藏英文副行，保持卡唇干净（中文名项目仅手机档显示副行） */
-  .ud-menu-en[data-astro-cid-pux6a34n] {
-    display: none;
-  }
-}
-
 /* ------------------------------------------------------------
    P2-6 首页开屏竖图（已回滚，保留注释防再次踩坑）
    原生行为：JS(GSAP) 按 isMobile(≤1099px) 分支驱动 clip-path，

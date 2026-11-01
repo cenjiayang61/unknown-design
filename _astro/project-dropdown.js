@@ -160,35 +160,26 @@
     function ch(a, b) { return Math.round(a + (b - a) * t); }
     return 'rgb(' + ch(0x57, 0x8C) + ',' + ch(0x56, 0x8A) + ',' + ch(0x52, 0x85) + ')';
   }
-  function menuItem(i, bg, href, small, title, transition, cn, date) {
+  function menuItem(i, bg, href, small, title, transition) {
     var c = ' data-astro-cid-pux6a34n';
-    /* 中文名可用且与英文名不同：大字显示中文，英文降为小字副行（2026-11-01 用户反馈"缺中文"） */
-    var hasCn = !!(cn && cn !== title);
     return '<li class="main-links-item" style="--index:' + i + '"' + c + '> ' +
       '<a class="link" style="--bg:' + bg + '" href="' + href + '" data-transition="' + transition + '"' + c + '> ' +
-      '<span class="micro-3" data-small-title' + c + '> ' + esc(small) +
-      (date ? ' <span class="ud-mono" style="opacity:.55;">— ' + esc(date) + '</span>' : '') + ' </span> ' +
-      '<span class="main-links-item-title | display-1" data-title' + c + (hasCn ? ' data-has-en' : '') + '>' + esc(hasCn ? cn : title) + '</span> ' +
-      (hasCn ? '<span class="ud-menu-en"' + c + '>' + esc(title) + '</span>' : '') +
-      '</a> </li>';
+      '<span class="micro-3" data-small-title' + c + '> ' + esc(small) + ' </span> ' +
+      '<span class="main-links-item-title | display-1" data-title' + c + '>' + esc(title) + '</span> </a> </li>';
   }
+
   function renderMenu() {
     var lists = document.querySelectorAll('ul[data-menu-projects]');
     if (!lists.length) return;
     var all = sorted();
-    /* 一致性签名包含大字文本：静态 HTML 只有英文名，会与注册表（中文名）不一致 → 触发重渲染 */
-    var want = all.map(function (p) { return H(p.href) + '\u0001' + (p.cn || p.title); })
-      .concat(H('/projects/') + '\u0001All Projects').join('|');
+    var want = all.map(function (p) { return H(p.href); }).concat(H('/projects/')).join('|');
     for (var i = 0; i < lists.length; i++) {
       var ul = lists[i];
       if (!ul.hasAttribute('data-lenis-prevent-touch')) ul.setAttribute('data-lenis-prevent-touch', '');
-      var have = Array.prototype.map.call(ul.querySelectorAll('a.link'), function (a) {
-        var t = a.querySelector('[data-title]');
-        return a.getAttribute('href') + '\u0001' + (t ? t.textContent.trim() : '');
-      }).join('|');
+      var have = Array.prototype.map.call(ul.querySelectorAll('a.link'), function (a) { return a.getAttribute('href'); }).join('|');
       if (have === want) continue;               // 静态 HTML 已与注册表一致（无 JS 时的兜底）
       var html = all.map(function (p, k) {
-        return menuItem(k, menuShade(k, all.length), H(p.href), p.sub, p.title, 'navToStory', p.cn, pd(p.date));
+        return menuItem(k, menuShade(k, all.length), H(p.href), p.sub, p.title, 'navToStory');
       }).join('') + menuItem(all.length, LIGHT, H('/projects/'), 'Index', 'All Projects', 'secondaryNav');
       ul.style.setProperty('--total', all.length + 1);
       ul.innerHTML = html;
