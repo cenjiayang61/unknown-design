@@ -9,13 +9,13 @@
    一级标题（UNKNOWN DESIGN / SELECTED WORKS / PROJECTS 等）= Display SemiBold
    二级标题（主张句、面门光）= Display Medium
    三级标题与正文 = Display / Text Regular */
-@font-face{font-family:"UD Display";src:url(/unknown-design/fonts/ud/InterDisplay-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Display";src:url(/unknown-design/fonts/ud/InterDisplay-Medium.woff) format("woff");font-weight:451 550;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Display";src:url(/unknown-design/fonts/ud/InterDisplay-SemiBold.woff) format("woff");font-weight:551 1000;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Light";src:url(/unknown-design/fonts/ud/InterDisplay-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Light";src:url(/unknown-design/fonts/ud/InterDisplay-Medium.woff) format("woff");font-weight:451 1000;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Text";src:url(/unknown-design/fonts/ud/Inter-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Text";src:url(/unknown-design/fonts/ud/Inter-Medium.woff) format("woff");font-weight:451 1000;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Display";src:url(/fonts/ud/InterDisplay-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Display";src:url(/fonts/ud/InterDisplay-Medium.woff) format("woff");font-weight:451 550;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Display";src:url(/fonts/ud/InterDisplay-SemiBold.woff) format("woff");font-weight:551 1000;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Light";src:url(/fonts/ud/InterDisplay-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Light";src:url(/fonts/ud/InterDisplay-Medium.woff) format("woff");font-weight:451 1000;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Text";src:url(/fonts/ud/Inter-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Text";src:url(/fonts/ud/Inter-Medium.woff) format("woff");font-weight:451 1000;font-style:normal;font-display:swap}
 /* ---------- 色彩：界面无色，颜色只来自作品照片 ---------- */
 :root{
   --ud-ink:#0E0E0D;     /* 暗：主背景 */
@@ -208,3 +208,12 @@ html.ud-motion [data-ud-reveal] .ud-w{opacity:.16;transition:opacity .2s linear}
   .ud-pcard:nth-child(5n+3) .ud-pcard__num{left:auto;right:-.04em;top:0;transform:translateY(-82%)}
 }
 
+
+/* ---- 中文大字行高修正 ----------------------------------------------------
+ * display-*-horizontal 的 line-height:.8 为拉丁大写字母设计；
+ * 中文字形占满字身框，0.8 行高必然上下重叠（隐幽茶舍·Tea & Light 实测打架）。
+ * 含中文的大字标题加 .is-cjk 提升行高、放开字距。 */
+.display-3-horizontal.is-cjk {
+  line-height: 1.16;
+  letter-spacing: 0.01em;
+}
