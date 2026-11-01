@@ -240,6 +240,14 @@
     document.addEventListener('click', function (e) {
       var t = e.target;
       if (!(t && t.closest)) return;
+      var menuBtn = t.closest('[data-toggle-menu-button]');
+      if (menuBtn) {
+        /* 菜单正在打开 → 稍候启动项目页预取（见 prefetchOnMenu 注释） */
+        var navNow = document.querySelector('[data-navigation]');
+        if (navNow && getComputedStyle(navNow).visibility !== 'visible') {
+          setTimeout(prefetchOnMenu, 600);
+        }
+      }
       var menuLink = t.closest('[data-navigation] a[href]');
       if (menuLink) {
         try {
@@ -271,6 +279,29 @@
         if (n && getComputedStyle(n).visibility !== 'visible') openMenu();
       }, 2500);
     });
+  }
+
+  /* ---------- 6. 菜单打开时预取项目页（消除手机端点击后的停顿） ----------
+   * taxi 的预取只挂在 mouseenter 上，手机无 hover 预取失效；
+   * 点击后虽会并行取页，但 GitHub Pages 国内往返偏高，离场动画放完
+   * 仍要干等网络（真机：安卓/iPhone 点项目均有明显停顿）。
+   * 菜单展开瞬间预取列表前 10 个项目页（最新、最常点），
+   * 用户浏览菜单的几秒里后台取完，点击即从缓存渲染，接近秒开。 */
+  function prefetchOnMenu() {
+    if (window.__UD_PREFETCHED__) return;                     // 本页会话只跑一轮
+    window.__UD_PREFETCHED__ = true;
+    if (navigator.connection && navigator.connection.saveData) return;  // 尊重系统"省流模式"
+    var links = document.querySelectorAll('[data-main-links] .link[href]');
+    for (var i = 0; i < links.length && i < 10; i++) {
+      (function (href, delay) {
+        setTimeout(function () {
+          var tx = window._taxi;
+          if (tx && typeof tx.preload === 'function') {
+            try { tx.preload(href); } catch (e) {}
+          }
+        }, delay);
+      })(links[i].getAttribute('href'), 600 + i * 130);       // 错峰发起，不与菜单动画抢资源
+    }
   }
 
   function init() { renderAll(); bind(); menuReturn(); }
