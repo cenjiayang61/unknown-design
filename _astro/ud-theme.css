@@ -9,13 +9,13 @@
    一级标题（UNKNOWN DESIGN / SELECTED WORKS / PROJECTS 等）= Display SemiBold
    二级标题（主张句、面门光）= Display Medium
    三级标题与正文 = Display / Text Regular */
-@font-face{font-family:"UD Display";src:url(/fonts/ud/InterDisplay-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Display";src:url(/fonts/ud/InterDisplay-Medium.woff) format("woff");font-weight:451 550;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Display";src:url(/fonts/ud/InterDisplay-SemiBold.woff) format("woff");font-weight:551 1000;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Light";src:url(/fonts/ud/InterDisplay-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Light";src:url(/fonts/ud/InterDisplay-Medium.woff) format("woff");font-weight:451 1000;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Text";src:url(/fonts/ud/Inter-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
-@font-face{font-family:"UD Text";src:url(/fonts/ud/Inter-Medium.woff) format("woff");font-weight:451 1000;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Display";src:url(../fonts/ud/InterDisplay-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Display";src:url(../fonts/ud/InterDisplay-Medium.woff) format("woff");font-weight:451 550;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Display";src:url(../fonts/ud/InterDisplay-SemiBold.woff) format("woff");font-weight:551 1000;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Light";src:url(../fonts/ud/InterDisplay-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Light";src:url(../fonts/ud/InterDisplay-Medium.woff) format("woff");font-weight:451 1000;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Text";src:url(../fonts/ud/Inter-Regular.woff) format("woff");font-weight:1 450;font-style:normal;font-display:swap}
+@font-face{font-family:"UD Text";src:url(../fonts/ud/Inter-Medium.woff) format("woff");font-weight:451 1000;font-style:normal;font-display:swap}
 /* ---------- 色彩：界面无色，颜色只来自作品照片 ---------- */
 :root{
   --ud-ink:#0E0E0D;     /* 暗：主背景 */
