@@ -1,0 +1,76 @@
+/* ============================================================
+   UNKNOWN DESIGN · 窄屏适配层（阶段1）
+   规则：所有规则都在 max-width 媒体查询内，桌面端（≥1101px）渲染零影响。
+   回滚：页面 <head> 移除本文件的 <link> 即恢复原状。
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   P1-1 头部横向溢出修复（≤1100px）
+   现象：390px 视口下 .site-header 的 .site-grid 实测 532px（全站唯一横向溢出源）
+   原因：grid 列为 1fr（最小尺寸=内容宽度），头部导航标签撑破窄视口
+   修法：仅头部网格允许列收缩（minmax(0,1fr)），不影响其他区块
+   ------------------------------------------------------------ */
+@media (max-width: 68.6875rem) {
+  .site-header[data-astro-cid-ctg3m53h] .site-grid {
+    grid-template-columns: repeat(var(--cols, 16), minmax(0, 1fr));
+  }
+  /* 真凶：逐字动画 .char 块带 transform 位移，把布局视口撑宽 142px（532>390），
+     连累 fixed 头部 width:100% 跟着变宽。clip 禁止横向扩张，且不产生滚动容器、
+     不影响 fixed/sticky 定位 */
+  html, body {
+    overflow-x: clip;
+  }
+}
+
+/* ------------------------------------------------------------
+   P2-4 SELECTED 堆叠卡大标题窄屏截字修复（≤767px）
+   现象：display-1 流式字号在 390px 约 52px，"XIAOXI JIAZUO · MIXC" 等被裁
+   ------------------------------------------------------------ */
+@media (max-width: 47.9375rem) {
+  [data-latest-folders] .item-title {
+    font-size: clamp(30px, 8.4vw, 40px) !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   P1-3 MENU 菜单手机档可读性（≤767px）
+   现象：全叠卡片结构在窄屏上标签小、条带边界模糊
+   修法：标签放大提字距 + 条带加发丝线分隔（不改叠卡结构与动画）
+   ------------------------------------------------------------ */
+@media (max-width: 47.9375rem) {
+  .main-links[data-astro-cid-pux6a34n] .link .micro-3 {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+  .main-links[data-astro-cid-pux6a34n] .link {
+    box-shadow: inset 0 1px 0 rgba(14, 14, 13, 0.10);
+  }
+  /* 触屏无 hover，条带大标题永远不会正常展示（只会错位悬浮），隐藏但保留布局占位 */
+  .main-links-item-title[data-astro-cid-pux6a34n] {
+    opacity: 0 !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   P2-6 首页开屏竖图窄屏放大（竖屏或窄屏设备）
+   原理：开屏"小竖图"实为整幅背景图的 clip-path 裁窗（30%..70% × 35%..80%），
+   窄屏上仅放大裁窗，布局高度不变、桌面端不受影响
+   ------------------------------------------------------------ */
+@media (max-width: 68.6875rem) and (orientation: portrait),
+       (max-width: 47.9375rem) {
+  .intro-hero[data-astro-cid-nbxkidvx] .background-picture {
+    clip-path: polygon(10% 20%, 90% 20%, 90% 96%, 10% 96%) !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   P1-2 our-trip 导语英文单词截断缓解（≤1100px）
+   现象：逐字 span 动画使 "From" 可被拆成 "Fro/m"（根治在阶段2 JS 分词）
+   缓解：窄屏下略降字号并放宽行距，减少断行概率
+   ------------------------------------------------------------ */
+@media (max-width: 68.6875rem) {
+  h3.display-6-horizontal {
+    font-size: clamp(19px, 5.4vw, 26px);
+    line-height: 1.55;
+  }
+}
