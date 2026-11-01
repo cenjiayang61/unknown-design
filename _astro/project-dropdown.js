@@ -223,7 +223,57 @@
     }).observe(document.body, { childList: true, subtree: true });
   }
 
-  function init() { renderAll(); bind(); }
+  /* ---------- 5. 返回时恢复菜单打开状态 ----------
+   * 场景：从菜单进入某页后按浏览器"返回"，期望回到菜单还开着的页面，
+   * 而不是关着菜单的裸页（2026-11-01 用户真机反馈）。
+   * 实现：点击菜单内链接时写 sessionStorage 标记；
+   *       taxi 转场以 popstate（浏览器返回）到达且标记存在时，自动重开菜单。
+   * 任何非菜单的站内点击会清掉标记，保证语义 = "从这个页面经菜单离开"。 */
+  function menuReturn() {
+    var KEY = 'udMenuReturn';
+    function isOpenable() { return !!document.querySelector('[data-toggle-menu-button]'); }
+    function openMenu() {
+      var btn = document.querySelector('[data-toggle-menu-button]');
+      if (btn) btn.click();
+    }
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!(t && t.closest)) return;
+      var menuLink = t.closest('[data-navigation] a[href]');
+      if (menuLink) {
+        try {
+          var u = new URL(menuLink.href, location.href);
+          if (u.origin === location.origin && !u.hash) sessionStorage.setItem(KEY, '1');
+        } catch (err) {}
+      } else if (t.closest('a[href]')) {
+        sessionStorage.removeItem(KEY);   // 经普通页面链接离开：取消恢复
+      }
+    }, true);
+    var pending = false;
+    window.addEventListener('popstate', function () {
+      pending = sessionStorage.getItem(KEY) === '1';
+      if (pending) setTimeout(function () {   // 兜底：转场事件万一未到达，4s 后直接恢复
+        if (pending && isOpenable()) { pending = false; openMenu(); }
+      }, 4000);
+    });
+    var tries = 0;
+    (function bindTaxi() {
+      if (window._taxi) {
+        window._taxi.on('NAVIGATE_END', function (info) {
+          if (!pending) return;
+          if (info && info.trigger === 'popstate') {
+            pending = false;
+            sessionStorage.removeItem(KEY);
+            setTimeout(openMenu, 900);      // 等新页面进场淡入结束后再开菜单
+          }
+        });
+      } else if (++tries < 100) {
+        setTimeout(bindTaxi, 100);
+      }
+    })();
+  }
+
+  function init() { renderAll(); bind(); menuReturn(); }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
