@@ -179,6 +179,20 @@
       var ul = lists[i];
       if (!ul.hasAttribute('data-lenis-prevent')) ul.setAttribute('data-lenis-prevent', '');
       if (!ul.hasAttribute('data-lenis-prevent-touch')) ul.setAttribute('data-lenis-prevent-touch', '');
+      /* 2026-11-01 滚轮即时响应：菜单滚动不再依赖原生滚动链路——
+         lenis 停止态/浏览器平滑滚动设置可能吞掉起始几格滚轮（真机"停顿一下
+         才响应"），改为导航层直接手动滚动，每格立即生效 */
+      var navEl = ul.closest('.navigation');
+      if (navEl && !navEl.hasAttribute('data-ud-wheel')) {
+        navEl.setAttribute('data-ud-wheel', '');
+        navEl.addEventListener('wheel', function (e) {
+          e.preventDefault();
+          var d = e.deltaY;
+          if (e.deltaMode === 1) d *= 40;
+          else if (e.deltaMode === 2) d *= navEl.clientHeight;
+          navEl.scrollTop += d;
+        }, { passive: false });
+      }
       var have = Array.prototype.map.call(ul.querySelectorAll('a.link'), function (a) { return a.getAttribute('href'); }).join('|');
       if (have === want) continue;               // 静态 HTML 已与注册表一致（无 JS 时的兜底）
       var html = all.map(function (p, k) {

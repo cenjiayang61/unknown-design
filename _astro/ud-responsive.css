@@ -83,12 +83,17 @@
   }
 }
 
-/* 菜单堆叠卡收尾：每张卡条目(li)限高 = 从自己唇位到容器底部（唇高 × (total-−index)）。
-   li 原本被网格格子拉伸到整容器高（约 3175px），其盒体经 transform 溢出把
-   滚动区撑到容器近两倍，滚到底是一大屏空白卡身；按序号收缩后溢出恰好归零，
-   滚动终点 = 容器底部 = 渐变结尾 + 亮卡唇（2026-11-01） */
+/* 菜单堆叠卡收尾：每张卡条目(li)限高 2 唇。原卡身 100%（≈整容器高 3175px），
+   经 transform 溢出把滚动区撑到容器近两倍，滚到底是一大屏空白卡身，且真机上
+   21 张数千像素高的图层 hover 重绘开销大。可见部分只有唇口 + hover 上移 20px
+   的露底带，2 唇（302px）即足够覆盖——溢出归零，图层大幅瘦身。
+   最后一张 Index 亮卡给 3 唇：装下 220px 的 ALL PROJECTS 大字（1 唇时深色
+   大字溢出到黑色导航底上"隐形"，用户截图标注要求完整可见）。 */
 .main-links-item[data-astro-cid-pux6a34n] {
-  height: calc(var(--ud-lip, 151px) * (var(--total, 21) - var(--index, 0)));
+  height: calc(var(--ud-lip, 151px) * 2);
+}
+.main-links-item:last-child[data-astro-cid-pux6a34n] {
+  height: calc(var(--ud-lip, 151px) * 3);
 }
 .main-links[data-astro-cid-pux6a34n] .link[data-astro-cid-pux6a34n] {
   height: 100%;
