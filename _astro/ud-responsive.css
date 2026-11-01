@@ -33,21 +33,61 @@
 }
 
 /* ------------------------------------------------------------
-   P1-3 MENU 菜单手机档可读性（≤767px）
-   现象：全叠卡片结构在窄屏上标签小、条带边界模糊
-   修法：标签放大提字距 + 条带加发丝线分隔（不改叠卡结构与动画）
+   P1-3 + P2-1 MENU 菜单手机档重设计（≤767px）
+   桌面：25 张堆叠卡 + hover 翻牌，保持不动
+   手机问题：无 hover；堆叠卡每张只露约 4% 卡唇，标签被上一张卡盖住，
+   只剩一片由暗到浅的灰渐变，文字不可读（2026-11-01 真机截图确认）
+   方案：≤767px 改为双列索引卡列表（纯 CSS 实现）
+   - JS 开合动画作用在 --offset-y / autoAlpha 上，本方案不改 transform 变量公式
+     之外被 GSAP 内联驱动的属性，开合淡入淡出仍有效
+   - 点击卡片的全屏展开跳转用内联 position/height 实现，不受影响
+   - 背景统一深墨保证对比度；最后一张"门外的光"亮卡保留反色点缀
    ------------------------------------------------------------ */
 @media (max-width: 47.9375rem) {
+  /* 容器：双列网格 + 发丝线 + 内部滚动（导航层固定 100dvh，菜单区 1fr）
+     注意：行高必须用 auto（minmax(60px,auto) 实测不随内容增长，
+     li 被钉在 60px，多出内容被下一行不透明卡片盖住形成"裁切"），
+     最小高度交给 .link 的 min-height 承担 */
+  .main-links[data-astro-cid-pux6a34n] {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
+    gap: 1px;
+    padding: 1px 0 0 1px;
+    background-color: #2A2A28;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* 取消堆叠：原规则把 25 项全部钉在同一个格子里再 translateY 扇形展开 */
+  .main-links-item[data-astro-cid-pux6a34n] {
+    grid-column-start: auto;
+    grid-row-start: auto;
+    transform: none;
+  }
+  .main-links[data-astro-cid-pux6a34n] .link[data-astro-cid-pux6a34n] {
+    height: 100%;              /* 填满所在行（行高由同行最高卡片决定），矮卡不留空带 */
+    min-height: 60px;
+    justify-content: center;
+    row-gap: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #161615;
+  }
+  /* 小标签：分类 · 地点 */
   .main-links[data-astro-cid-pux6a34n] .link .micro-3 {
-    font-size: 11px;
-    letter-spacing: 0.14em;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    opacity: 0.62;
   }
-  .main-links[data-astro-cid-pux6a34n] .link {
-    box-shadow: inset 0 1px 0 rgba(14, 14, 13, 0.10);
-  }
-  /* 触屏无 hover，条带大标题永远不会正常展示（只会错位悬浮），隐藏但保留布局占位 */
+  /* 大标题：从"隐藏占位"恢复为紧凑可读（display-1 原为 52px 级别） */
   .main-links-item-title[data-astro-cid-pux6a34n] {
-    opacity: 0 !important;
+    opacity: 1 !important;
+    font-size: clamp(15px, 4.4vw, 19px) !important;
+    letter-spacing: 0.02em;
+    margin-top: 0;
+  }
+  /* 最后一张"门外的光"：保持亮卡反色（ud-theme 已将其文字压为深墨） */
+  .main-links .main-links-item:last-child .link {
+    background-color: #F1F0ED;
   }
 }
 
