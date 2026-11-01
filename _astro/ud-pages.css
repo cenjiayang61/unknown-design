@@ -1,0 +1,338 @@
+/* =========================================================
+   UNKNOWN DESIGN · About / History 页面样式（ud-pages.css）
+   - 全站引用（站点用无刷新转场，<head> 不会随页面切换重新加载）
+   - 动效状态依赖 html.ud-motion（ud-motion.js 加上）；
+     减少动态效果或 JS 未运行时，内容直接完整显示
+   ========================================================= */
+
+/* ---------- 共用：版心、标签、标题层级 ---------- */
+.ud-pg{padding-left:16px;padding-right:16px}
+@media (min-width:1100px){.ud-pg{padding-left:24px;padding-right:24px}}
+.ud-pg__in{max-width:1680px;margin:0 auto}
+.ud-pg-sec{padding-top:clamp(96px,12vw,200px)}
+.ud-pg-label{display:flex;align-items:center;gap:16px;margin:0 0 clamp(28px,3.4vw,52px);font-family:var(--ud-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ud-mid)}
+.ud-pg-label::after{content:"";flex:1;height:1px;background:var(--ud-line)}
+.ud-pg-label b{font-weight:400;color:var(--ud-soft)}
+
+/* 二级标题：英文 Display Medium，中文同级置于其下 */
+.ud-pg-h2{margin:0;font-family:"UD Display",sans-serif;font-weight:500;font-size:clamp(34px,4.6vw,76px);line-height:1.02;letter-spacing:-.02em;color:var(--ud-light)}
+.ud-pg-h2-cn{margin:.6em 0 0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-weight:400;font-size:clamp(18px,1.7vw,26px);line-height:1.6;letter-spacing:.08em;color:var(--ud-soft)}
+/* 正文：中文为主、英文为辅 */
+.ud-pg-cn{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-weight:400;font-size:clamp(16px,1.15vw,18px);line-height:2;letter-spacing:.04em;color:var(--ud-light)}
+.ud-pg-en{margin:.9em 0 0;font-family:"UD Text",sans-serif;font-weight:400;font-size:15px;line-height:1.7;color:var(--ud-mid)}
+.ud-pg-cap{display:flex;justify-content:space-between;gap:16px;margin-top:12px;font-family:var(--ud-mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ud-mid)}
+.ud-pg-cap span:last-child{font-family:"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.12em;text-transform:none}
+
+/* 12 栏网格 */
+.ud-pg-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,1.6vw,24px)}
+
+/* 图片：裁切框 + 视差（ud-motion.js 写入 transform） */
+.ud-pg-fig{margin:0}
+.ud-pg-img{position:relative;display:block;overflow:hidden;background:var(--ud-deep)}
+.ud-pg-img img{display:block;width:100%;height:100%;object-fit:cover}
+.ud-pg-img--contain{background:transparent}
+.ud-pg-img--contain img{object-fit:contain}
+
+/* 进入视口的统一淡入（data-ud-inview → .is-in） */
+html.ud-motion [data-ud-inview]{opacity:0;transform:translate3d(0,40px,0);transition:opacity 1.1s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1)}
+html.ud-motion [data-ud-inview].is-in{opacity:1;transform:none}
+html.ud-motion [data-ud-inview][data-delay="1"]{transition-delay:.12s}
+html.ud-motion [data-ud-inview][data-delay="2"]{transition-delay:.24s}
+html.ud-motion [data-ud-inview][data-delay="3"]{transition-delay:.36s}
+
+/* 浅色曝光段（头部导航自动转深色：.ud-light-band） */
+.ud-light-band{background:var(--ud-light);color:var(--ud-ink)}
+.ud-light-band .ud-pg-label{color:#6B6965}
+.ud-light-band .ud-pg-label::after{background:#D6D4CF}
+.ud-light-band .ud-pg-h2,.ud-light-band .ud-pg-cn{color:var(--ud-ink)}
+.ud-light-band .ud-pg-h2-cn{color:#4A4946}
+.ud-light-band .ud-pg-en{color:#6B6965}
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+/* A · 数字 */
+.ud-hi-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:clamp(12px,1.6vw,24px);padding-top:clamp(16px,3vw,48px)}
+.ud-hi-stat{border-top:1px solid var(--ud-line);padding-top:16px}
+.ud-hi-stat b{display:block;font-family:"UD Display",sans-serif;font-weight:600;font-size:clamp(48px,6vw,108px);line-height:.86;letter-spacing:-.04em;color:var(--ud-light);font-variant-numeric:tabular-nums}
+.ud-hi-stat b sup{font-size:.36em;vertical-align:top;margin-left:.06em;letter-spacing:0}
+.ud-hi-stat span{display:block;margin-top:14px;font-family:var(--ud-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ud-mid)}
+.ud-hi-stat i{display:block;margin-top:4px;font-style:normal;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:13px;letter-spacing:.14em;color:var(--ud-soft)}
+.ud-hi-lead{grid-column:1/10;margin-top:clamp(72px,8vw,128px)}
+.ud-hi-lead .ud-pg-h2{font-size:clamp(30px,3.8vw,64px)}
+
+/* B · 01 Timeline */
+.ud-hi-tl{margin:0;padding:0;list-style:none}
+.ud-hi-yr{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,1.6vw,24px);padding:clamp(28px,3vw,44px) 0;border-top:1px solid var(--ud-line)}
+.ud-hi-yr:last-child{border-bottom:1px solid var(--ud-line)}
+.ud-hi-yr__y{grid-column:1/4;position:sticky;top:90px;align-self:start}
+.ud-hi-yr__y b{display:block;font-family:"UD Display",sans-serif;font-weight:600;font-size:clamp(48px,6vw,104px);line-height:.85;letter-spacing:-.04em;color:var(--ud-light)}
+.ud-hi-yr__y span{display:block;margin-top:12px;font-family:var(--ud-mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ud-mid)}
+.ud-hi-yr__list{grid-column:5/13;margin:0;padding:0;list-style:none}
+.ud-hi-yr__list li{border-top:1px solid #1F1F1D}
+.ud-hi-yr__list li:first-child{border-top:0}
+.ud-hi-p{display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:center;gap:20px;padding:12px 0;color:inherit;text-decoration:none}
+.ud-hi-p__img{display:block;width:72px;aspect-ratio:1/1;overflow:hidden;background:var(--ud-deep)}
+.ud-hi-p__img img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) brightness(.85);transition:filter .5s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.ud-hi-p__n{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;min-width:0}
+.ud-hi-p__n .cn{font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:clamp(16px,1.3vw,20px);letter-spacing:.06em;color:var(--ud-light)}
+.ud-hi-p__n .en{font-family:"UD Display",sans-serif;font-weight:500;font-size:15px;color:var(--ud-mid);transition:color .3s}
+.ud-hi-p__m{font-family:var(--ud-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ud-mid);text-align:right;white-space:nowrap}
+a.ud-hi-p:hover .ud-hi-p__img img{filter:none;transform:scale(1.08)}
+a.ud-hi-p:hover .ud-hi-p__n .en{color:var(--ud-light)}
+.ud-hi-yr__note{grid-column:5/13;margin:0}
+.ud-hi-yr--quiet .ud-hi-yr__y b{color:var(--ud-mid)}
+
+/* C · 02 Cities：坐标示意图 */
+.ud-hi-map{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,1.6vw,24px);row-gap:32px;align-items:start}
+.ud-hi-map__main{grid-column:1/8;position:relative}
+.ud-hi-map__inset{grid-column:8/13;position:relative;border:1px solid var(--ud-line);background:#0B0B0A}
+.ud-hi-map svg{display:block;width:100%;height:auto;overflow:visible}
+.ud-hi-map__t{position:absolute;left:14px;top:12px;font-family:var(--ud-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ud-mid)}
+.ud-hi-map__note{grid-column:1/-1;margin:0;font-family:var(--ud-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#5A5854}
+.ud-hi-map .grat{stroke:#1F1F1D;stroke-width:1}
+.ud-hi-map .gtxt{fill:#4A4946;font:10px/1 var(--ud-mono);letter-spacing:.12em}
+.ud-hi-map .zoom{fill:none;stroke:var(--ud-mid);stroke-width:1;stroke-dasharray:3 4}
+.ud-hi-map .lead{stroke:#3A3936;stroke-width:1}
+.ud-hi-map .city .halo{fill:#F1F0ED;opacity:.08;transition:opacity .4s ease}
+.ud-hi-map .city .dot{fill:#F1F0ED}
+.ud-hi-map .city .cn{fill:var(--ud-light);font:14px "PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.12em}
+.ud-hi-map .city .en{fill:var(--ud-mid);font:9.5px var(--ud-mono);letter-spacing:.18em;text-transform:uppercase}
+.ud-hi-map .city .num{fill:var(--ud-mid);font:9.5px var(--ud-mono);letter-spacing:.1em}
+.ud-hi-map .city{cursor:default}
+.ud-hi-map .city.is-hot .halo{opacity:.28}
+.ud-hi-map .city.is-hot .cn{fill:#FFFFFF}
+html.ud-motion .ud-hi-map .city .dot{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .7s cubic-bezier(.3,1.5,.5,1)}
+html.ud-motion .ud-hi-map.is-in .city .dot{transform:none}
+html.ud-motion .ud-hi-map .city .halo{transform-box:fill-box;transform-origin:center;animation:ud-pulse 3.6s ease-in-out infinite;animation-play-state:paused}
+html.ud-motion .ud-hi-map.is-in .city .halo{animation-play-state:running}
+@keyframes ud-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+/* 城市清单 */
+.ud-hi-cities{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(12px,1.6vw,24px);margin-top:clamp(56px,6vw,96px)}
+.ud-hi-city{padding:18px 0 22px;border-top:1px solid var(--ud-line);transition:border-color .3s}
+.ud-hi-city.is-hot{border-top-color:var(--ud-light)}
+.ud-hi-city__h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.ud-hi-city__h b{font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-weight:500;font-size:clamp(20px,1.7vw,26px);letter-spacing:.14em;color:var(--ud-light)}
+.ud-hi-city__h span{font-family:var(--ud-mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ud-mid)}
+.ud-hi-city__b{margin:0;font-family:"UD Text","PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.9;color:var(--ud-soft)}
+.ud-hi-city__b a{color:inherit;text-decoration:none;border-bottom:1px solid #3A3936;transition:color .3s,border-color .3s}
+.ud-hi-city__b a:hover{color:var(--ud-light);border-color:var(--ud-light)}
+
+/* D · 03 Partners：品牌墙（光从左向右扫过） */
+.ud-hi-wall{position:relative;margin-top:clamp(48px,5vw,80px);background:#000;overflow:hidden}
+.ud-hi-wall img{display:block;width:100%;height:auto}
+html.ud-motion .ud-hi-wall img{-webkit-mask-image:linear-gradient(90deg,#000 0%,#000 40%,transparent 60%,transparent 100%);mask-image:linear-gradient(90deg,#000 0%,#000 40%,transparent 60%,transparent 100%);-webkit-mask-size:260% 100%;mask-size:260% 100%;-webkit-mask-position:100% 0;mask-position:100% 0;transition:-webkit-mask-position 2.6s cubic-bezier(.4,0,.2,1),mask-position 2.6s cubic-bezier(.4,0,.2,1)}
+html.ud-motion .ud-hi-wall.is-in img{-webkit-mask-position:0 0;mask-position:0 0}
+.ud-hi-wall__txt{grid-column:7/12;margin-top:clamp(40px,4vw,64px)}
+
+/* E · 收尾 */
+.ud-hi-end{padding-top:clamp(120px,14vw,240px);padding-bottom:clamp(80px,9vw,140px);text-align:center}
+.ud-hi-end__q{margin:0;font-family:"UD Display",sans-serif;font-weight:600;font-size:clamp(40px,6.4vw,112px);line-height:.96;letter-spacing:-.035em;color:var(--ud-light)}
+.ud-hi-end__cn{margin:22px 0 0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:clamp(17px,1.5vw,24px);letter-spacing:.2em;color:var(--ud-soft)}
+.ud-hi-end__links{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:clamp(40px,4vw,64px)}
+.ud-pg-btn{display:inline-flex;align-items:center;gap:12px;padding:14px 20px;border:1px solid var(--ud-line);font-family:var(--ud-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ud-light);text-decoration:none;transition:border-color .3s,background-color .3s,color .3s}
+.ud-pg-btn:hover{border-color:var(--ud-light);background:var(--ud-light);color:var(--ud-ink)}
+.ud-pg-btn span{font-family:"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.12em;text-transform:none}
+
+/* =========================================================
+   响应式
+   ========================================================= */
+@media (max-width:1099px){
+  .ud-hi-map__main,.ud-hi-map__inset{grid-column:1/-1}
+  .ud-hi-cities{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ud-hi-wall__txt,.ud-hi-lead{grid-column:1/-1}
+  .ud-hi-yr__y{grid-column:1/-1;position:static}
+  .ud-hi-yr__list,.ud-hi-yr__note{grid-column:1/-1;margin-top:18px}
+}
+@media (max-width:767px){
+  .ud-ab-motto__l:last-child{text-align:left}
+  .ud-hi-stats{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}
+  .ud-hi-cities{grid-template-columns:1fr}
+  .ud-hi-p{grid-template-columns:56px minmax(0,1fr);gap:14px}
+  .ud-hi-p__img{width:56px}
+  .ud-hi-p__m{grid-column:2;text-align:left}
+}
+@media (max-width:767px){
+  .ud-hi-map__main .city .cn{font-size:34px}
+  .ud-hi-map__main .city .en{font-size:20px}
+  .ud-hi-map__main .gtxt{font-size:15px}
+}
+
+/* =========================================================
+   全站呈现优化（不改文字内容）
+   ========================================================= */
+/* 项目详情：影片占位横跨整个版心，16:7 画幅 */
+.site-grid > .ud-film-slot{grid-column:1/-1;width:100%}
+.ud-film-slot .micro-3{font-size:11px}
+/* 项目详情：正文放大、加行距，中英分层更易读 */
+.text-column .paragraph-s{font-size:15px;line-height:1.75}
+.text-column .paragraph-s.ud-cn{font-size:16px;line-height:2;letter-spacing:.04em}
+.text-column .paragraph-s + .paragraph-s{margin-top:1.1em}
+@media (min-width:1100px){
+  .text-column .paragraph-s{font-size:16px}
+  .text-column .paragraph-s.ud-cn{font-size:17px}
+}
+
+/* History · 荣誉（浅色段，纯文字列表） */
+.ud-hi-stats{grid-template-columns:repeat(5,minmax(0,1fr))}
+.ud-hi-awards{margin-top:clamp(110px,13vw,220px);padding-top:clamp(80px,10vw,150px);padding-bottom:clamp(80px,10vw,150px)}
+.ud-hi-aw__h2{grid-column:1/9}
+.ud-hi-aw__cn{grid-column:1/9}
+.ud-hi-awl{margin:clamp(56px,6vw,96px) 0 0;padding:0;list-style:none}
+.ud-hi-aw{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,1.6vw,24px);align-items:baseline;padding:18px 0;border-top:1px solid #DAD8D3;transition:background-color .3s}
+.ud-hi-aw.is-first{border-top-color:var(--ud-ink)}
+.ud-hi-aw:last-child{border-bottom:1px solid var(--ud-ink)}
+.ud-hi-aw:hover{background:#E8E7E3}
+.ud-hi-aw__y{grid-column:1/3;font-family:"UD Display",sans-serif;font-weight:600;font-size:clamp(22px,2vw,32px);letter-spacing:-.02em;color:var(--ud-ink)}
+.ud-hi-aw__a{grid-column:3/8}
+.ud-hi-aw__h{grid-column:8/13}
+.ud-hi-aw b{display:block;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-weight:500;font-size:clamp(15px,1.15vw,18px);letter-spacing:.06em;color:var(--ud-ink)}
+.ud-hi-aw__h b{font-weight:400;color:#2E2E2B}
+.ud-hi-aw i{display:block;margin-top:4px;font-style:normal;font-family:"UD Text",sans-serif;font-size:13px;color:#6B6965}
+@media (max-width:1099px){
+  .ud-hi-stats{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:28px}
+  .ud-hi-aw__h2,.ud-hi-aw__cn{grid-column:1/-1}
+}
+@media (max-width:767px){
+  .ud-hi-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ud-hi-aw__y{grid-column:1/-1;font-size:20px}
+  .ud-hi-aw__y:empty{display:none}
+  .ud-hi-aw__a,.ud-hi-aw__h{grid-column:1/-1}
+  .ud-hi-aw__h{margin-top:8px}
+}
+
+/* About · 收尾宣言（与 History 结尾同一气质：居中大字 + 逐词点亮 + 横向漂移） */
+.ud-ab-motto{overflow:hidden;text-align:center;padding-top:clamp(140px,16vw,280px);padding-bottom:clamp(120px,14vw,240px)}
+.ud-ab-motto__row{overflow:visible}
+.ud-ab-motto__big{margin:0;white-space:nowrap;font-family:"UD Display",sans-serif;font-weight:600;font-size:clamp(40px,8.4vw,156px);line-height:.95;letter-spacing:-.04em;color:var(--ud-light);will-change:transform}
+.ud-ab-motto__cn{margin:clamp(18px,1.8vw,28px) 0 0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:clamp(16px,1.5vw,24px);letter-spacing:.24em;color:var(--ud-soft)}
+.ud-ab-motto__cn + .ud-ab-motto__row{margin-top:clamp(80px,9vw,160px)}
+@media (max-width:767px){.ud-ab-motto__big{white-space:normal;font-size:clamp(40px,12vw,56px)}}
+
+/* 页尾动态标志：面 · 门 · 光（无文字，循环呼吸） */
+.ud-mark-loop{position:relative;display:block;width:clamp(150px,16vw,220px);aspect-ratio:1/1;margin:0 auto;overflow:hidden;background:#0B0B0A}
+.ud-mark-loop__wash{position:absolute;inset:0;background:linear-gradient(100deg,#0B0B0A 0%,#2B2A27 42%,#9C9A95 82%,#E9E8E4 100%);opacity:.85}
+.ud-mark-loop__door{position:absolute;right:14%;top:0;width:30%;height:58%;background:#fff;border-radius:999px 999px 0 0;box-shadow:0 0 40px rgba(255,255,255,.55)}
+.ud-mark-loop__beam{position:absolute;inset:0;background:linear-gradient(200deg,rgba(255,255,255,.55),rgba(255,255,255,0) 70%);clip-path:polygon(56% 0,86% 0,100% 100%,18% 100%);mix-blend-mode:screen;opacity:.5}
+.ud-mark-loop__frame{position:absolute;inset:0;border:1px solid #3A3936}
+html.ud-motion .ud-mark-loop__door{animation:ud-door 7s cubic-bezier(.4,0,.2,1) infinite}
+html.ud-motion .ud-mark-loop__beam{animation:ud-beam 7s ease-in-out infinite}
+html.ud-motion .ud-mark-loop__wash{animation:ud-wash 7s ease-in-out infinite}
+@keyframes ud-door{0%{transform:scaleY(0);transform-origin:top}22%{transform:scaleY(1);transform-origin:top;box-shadow:0 0 20px rgba(255,255,255,.3)}55%{box-shadow:0 0 70px rgba(255,255,255,.75)}88%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+@keyframes ud-beam{0%,18%{opacity:0}45%,80%{opacity:.6}100%{opacity:0}}
+@keyframes ud-wash{0%,15%{opacity:.15}50%,82%{opacity:.9}100%{opacity:.15}}
+
+/* Our Trip · 呈现优化 */
+.ud-ot-en{display:block;margin-top:.7em;font-size:.56em;line-height:1.45;color:var(--ud-mid);text-indent:0;max-width:100%}
+p .ud-ot-en,.paragraph-s .ud-ot-en{font-size:.92em;color:var(--ud-mid)}
+h2.ud-ot-stops{font-family:"UD Display",sans-serif;font-weight:600;font-size:clamp(56px,12vh,132px);line-height:.9;letter-spacing:-.035em}
+.c-our-trip-place-intro .paragraph-l{line-height:1.55;letter-spacing:.02em}
+.c-our-trip-place-intro .paragraph-s{font-size:15px;line-height:1.7;color:var(--ud-soft)}
+@media (min-width:1100px){.c-our-trip-place-intro .paragraph-s{font-size:16px}}
+
+
+/* =========================================================
+   ABOUT · 章节式（每章约一屏、一个重点）
+   纵向基准：A = 第 1 栏，B = 第 7 栏；字号四级：T1 / T2 / 正文 / 标签
+   ========================================================= */
+.ud-ch{display:flex;flex-direction:column;justify-content:center;min-height:100vh;padding-top:clamp(96px,10vw,160px);padding-bottom:clamp(96px,10vw,160px)}
+.ud-ch > .ud-pg__in{width:100%}
+.ud-t1{margin:0;font-family:"UD Display",sans-serif;font-weight:600;font-size:clamp(40px,5.2vw,92px);line-height:1;letter-spacing:-.03em;color:var(--ud-light)}
+.ud-t2{margin:0;font-family:"UD Display",sans-serif;font-weight:500;font-size:clamp(20px,1.7vw,28px);line-height:1.3;letter-spacing:-.01em;color:var(--ud-light)}
+.ud-t2.is-cn,.ud-t2 .is-cn{font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-weight:400;letter-spacing:.08em}
+.ud-t2.is-cn{color:var(--ud-soft)}
+.ud-ch__t1{grid-column:1/11}
+.ud-ch__b{grid-column:7/13;margin-top:clamp(32px,3.4vw,56px)}
+.ud-ch .ud-pg-cn{margin-top:clamp(20px,2vw,28px)}
+/* 图左 · 文右（文字一律从 B 线起） */
+.ud-ch__split{align-items:center}
+.ud-ch__split > .ud-ch__img{grid-column:1/6}
+.ud-ch__split > .ud-ch__col{grid-column:7/13}
+.ud-ch__split .ud-pg-img{aspect-ratio:4/5;max-height:76vh}
+.ud-ch__col .ud-t1 + .ud-t2{margin-top:16px}
+.ud-ch__list{margin:clamp(28px,3vw,44px) 0 0;padding:0;list-style:none}
+.ud-ch__list li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-top:1px solid var(--ud-line);font-family:"UD Text",sans-serif;font-size:15px;color:var(--ud-light)}
+.ud-ch__list li:last-child{border-bottom:1px solid var(--ud-line)}
+.ud-ch__list li span:last-child{font-family:"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.12em;color:var(--ud-mid)}
+.ud-ch__note{margin-top:20px;line-height:1.9}
+.ud-ch__note .is-cn{font-family:"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.06em}
+/* 方法：行式，标题在 A，正文在 B，顶端对齐 */
+.ud-ch__rows{margin:clamp(56px,6vw,96px) 0 0;padding:0;list-style:none}
+.ud-ch__rows > li{padding:clamp(24px,2.4vw,36px) 0;border-top:1px solid var(--ud-line);align-items:start}
+.ud-ch__rows > li:last-child{border-bottom:1px solid var(--ud-line)}
+.ud-ch__k{grid-column:1/6;display:grid;grid-template-columns:3.2em 1fr;row-gap:6px}
+.ud-ch__k .ud-t2:first-child{grid-row:1/3;color:var(--ud-mid)}
+.ud-ch__k .is-cn{font-size:clamp(15px,1.15vw,17px)}
+.ud-ch__v{grid-column:7/13}
+.ud-ch__v .ud-pg-cn{margin-top:0}
+/* 三等分：同宽、同高、顶端对齐 */
+.ud-ch__trio,.ud-ch__three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(12px,1.6vw,24px);margin-top:clamp(56px,6vw,96px);align-items:start}
+.ud-ch__trio > div{border-top:1px solid var(--ud-ink);padding-top:20px}
+.ud-ch__tag{margin:10px 0 0;font-family:var(--ud-mono);font-size:11px;letter-spacing:.2em;color:#6B6965}
+.ud-ch__three .ud-pg-img{aspect-ratio:1/1}
+.ud-ch__three--tall .ud-pg-img{aspect-ratio:3/4}
+.ud-ch__three--vi .ud-pg-img{aspect-ratio:4/3;background:transparent}
+.ud-ch__three--vi img,.ud-ch__lock img{mix-blend-mode:multiply}
+.ud-ch__lock img{display:block;width:100%;max-width:420px;height:auto}
+.ud-light-band .ud-t1,.ud-light-band .ud-t2{color:var(--ud-ink)}
+.ud-light-band .ud-t2.is-cn{color:#4A4946}
+.ud-light-band .ud-pg-cap{color:#6B6965}
+/* 标识：面 → 门 → 光 */
+.ud-ab-mark__stage{display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;max-height:76vh;background:#0A0A09;border:1px solid var(--ud-line)}
+.ud-mark{position:relative;width:46%;aspect-ratio:1/1}
+.ud-mark__plane{position:absolute;inset:0;border:1px solid var(--ud-soft)}
+.ud-mark__light{position:absolute;inset:0;background:linear-gradient(90deg,#0E0E0D 0%,#3A3936 38%,#B5B3AE 78%,#F1F0ED 100%)}
+.ud-mark__floor{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(0deg,rgba(14,14,13,.55),rgba(14,14,13,0))}
+.ud-mark__door{position:absolute;right:12%;top:0;width:28%;height:56%;background:#fff;border-radius:999px 999px 0 0;box-shadow:0 0 60px rgba(255,255,255,.35)}
+html.ud-motion .ud-mark .ud-mark__light,html.ud-motion .ud-mark .ud-mark__floor{opacity:0;transition:opacity 1.6s ease 1.1s}
+html.ud-motion .ud-mark .ud-mark__door{transform:scaleY(0);transform-origin:top;transition:transform 1s cubic-bezier(.2,.7,.2,1) .5s}
+html.ud-motion .ud-mark .ud-mark__plane{opacity:0;transform:scale(.92);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+html.ud-motion .ud-ab-mark.is-in .ud-mark__plane{opacity:1;transform:none}
+html.ud-motion .ud-ab-mark.is-in .ud-mark__door{transform:none}
+html.ud-motion .ud-ab-mark.is-in .ud-mark__light,html.ud-motion .ud-ab-mark.is-in .ud-mark__floor{opacity:1}
+.ud-ch__steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:clamp(28px,3vw,44px) 0 0;padding:0;list-style:none}
+.ud-ch__steps li{border-top:1px solid var(--ud-line);padding-top:12px}
+.ud-ch__steps li span:last-child{display:block;margin-top:4px;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:13px;letter-spacing:.12em;color:var(--ud-mid)}
+.ud-ch__steps li:nth-child(2) .ud-t2{color:var(--ud-signal)}
+/* History · 合作品牌：标题在 A，说明在 B，品牌墙通栏 */
+.ud-hi-ph{align-items:end}
+.ud-hi-ph__h{grid-column:1/7}
+.ud-hi-ph__t{grid-column:7/13}
+.ud-hi-ph__t .ud-pg-cn{margin:0}
+/* 平板竖屏（768–1099）：保留图左文右与行式结构，只取消整屏高度 */
+@media (max-width:1099px){
+  .ud-ch{min-height:0}
+  .ud-ch__t1{grid-column:1/-1}
+  .ud-ch__split > .ud-ch__img{grid-column:1/7}
+  .ud-ch__k{grid-column:1/6}
+}
+/* 手机（≤767）：单栏堆叠 */
+@media (max-width:767px){
+  .ud-ch__t1,.ud-ch__b,.ud-ch__split > .ud-ch__img,.ud-ch__split > .ud-ch__col,.ud-ch__k,.ud-ch__v,.ud-hi-ph__h,.ud-hi-ph__t{grid-column:1/-1}
+  .ud-ch__split > .ud-ch__col,.ud-ch__v,.ud-hi-ph__t{margin-top:28px}
+  .ud-ch__trio{grid-template-columns:1fr;row-gap:32px}
+  .ud-ch__three{column-gap:8px}
+}
+
+/* 手机：三联图说明改为上下两行；工作室日常首图通栏 */
+@media (max-width:767px){
+  .ud-ch__three .ud-pg-cap{flex-direction:column;gap:2px;font-size:9.5px;letter-spacing:.14em}
+  .ud-ch__three--tall{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:8px}
+  .ud-ch__three--tall .ud-pg-fig:first-child{grid-column:1/-1}
+  .ud-ch__three--tall .ud-pg-fig:first-child .ud-pg-img{aspect-ratio:4/3}
+}
+
+/* Our Trip 导语：逐字动画把无空格的中文整句包成一个不换行的 word，平板竖屏/手机会冲出屏幕 → 允许在字之间换行（只改排版，不碰动画属性） */
+@media (max-width:1099px){
+  h3.display-6-horizontal .word{display:inline !important;white-space:normal} /* display 非动画属性；SplitText 以内联样式写 inline-block，需 !important 才能覆盖。opacity/transform 未触碰 */
+  h3.display-6-horizontal .ud-ot-en .word{display:inline-block !important} /* 英文单词保持整词 */
+}
+
+/* Our Trip · 手机竖向浏览：项目大字标语按屏宽收字号，保证最长单词（ORNAMENT / SAWTOOTH 等）整词不被裁 */
+@media (max-width:1099px){
+  .c-our-trip-place-intro .grid > .mt-60{grid-column:1/-1}
+}
+@media (max-width:767px){
+  .c-our-trip-place-intro .display-3-horizontal{font-size:clamp(34px,12.4vw,52px);line-height:.92}
+}

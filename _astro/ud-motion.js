@@ -3,6 +3,9 @@
  *   [data-ud-reveal]   文字随滚动逐字 / 逐词点亮
  *   [data-ud-drift]    大字随滚动横向漂移（数值为漂移系数，正负决定方向）
  *   [data-ud-parallax] 图片在框内轻微视差
+ *   [data-ud-inview]   进入视口时加 .is-in（淡入、地图点亮、品牌墙扫光）
+ *   [data-ud-count]    数字从 0 计数到标记里写好的终值
+ *   [data-city]        城市示意图与清单联动高亮
  * 系统开启"减少动态效果"时全部停用。
  */
 (function () {
@@ -42,6 +45,7 @@
     reveals.forEach(split);
     drifts = Array.prototype.slice.call(document.querySelectorAll('[data-ud-drift]'));
     pars = Array.prototype.slice.call(document.querySelectorAll('[data-ud-parallax]'));
+    observeInview();
     tick();
   }
 
@@ -77,6 +81,58 @@
       im.style.transform = 'translate3d(0,' + (q * -8).toFixed(2) + '%,0) scale(1.12)';
     }
   }
+
+  /* ---------- in-view ---------- */
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target;
+      el.classList.add('is-in');
+      io.unobserve(el);
+      var cs = el.hasAttribute('data-ud-count') ? [el] : el.querySelectorAll('[data-ud-count]');
+      Array.prototype.forEach.call(cs, countUp);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 }) : null;
+  function observeInview() {
+    var els = document.querySelectorAll('[data-ud-inview]');
+    for (var i = 0; i < els.length; i++) {
+      if (els[i].__udIO) continue;
+      els[i].__udIO = true;
+      if (io) io.observe(els[i]); else els[i].classList.add('is-in');
+    }
+  }
+  function countUp(el) {
+    if (el.__udCount) return;
+    el.__udCount = true;
+    var end = parseInt(el.textContent, 10);
+    if (!(end > 0)) return;
+    var t0 = 0, D = 1600;
+    el.textContent = '0';
+    (function step(ts) {
+      if (!t0) t0 = ts;
+      var k = Math.min(1, (ts - t0) / D), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = String(Math.round(end * e));
+      if (k < 1) requestAnimationFrame(step);
+    })(performance.now());
+  }
+
+  /* ---------- city hover sync ---------- */
+  var hot = '';
+  function setHot(key) {
+    if (key === hot) return;
+    hot = key;
+    var all = document.querySelectorAll('[data-city]');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      var on = !!key && (el.getAttribute('data-city') === key || el.getAttribute('data-city-self') === key);
+      el.classList.toggle('is-hot', on);
+    }
+  }
+  document.addEventListener('mouseover', function (e) {
+    var c = e.target && e.target.closest ? e.target.closest('[data-city]') : null;
+    setHot(c ? (c.getAttribute('data-city-self') || c.getAttribute('data-city')) : '');
+  });
+
   var t = 0;
   function init() {
     collect();

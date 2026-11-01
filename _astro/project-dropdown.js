@@ -28,7 +28,7 @@
     { title: 'Xiaoxi Jiazuo · Mixc', cn: '小西家作 · 万象城', sub: 'Dessert · Guangzhou Mixc', href: '/story/xiaoxi-mixc/', img: '/images/projects/xiaoxi-mixc/01.jpg', date: '2026-10' },
     { title: 'Erlun Sweetroom', cn: '贰轮甜室 · 顺德', sub: 'Dessert · Foshan Shunde', href: '/story/erlun-sd/', img: '/images/projects/erlun-sd/01.jpg', date: '2026-10' },
     { title: 'Le Pangzi Pizza', cn: '乐胖子手工pizza', sub: 'Pizzeria · Guilin', href: '/story/lepangzi/', img: '/images/projects/lepangzi/01.jpg', date: '2026-09' },
-    { title: 'Xiaoxi Jiazuo · Miaqian', cn: '小西家作 · 庙前西街', sub: 'Dessert · Guangzhou Miaqian Xijie', href: '/story/xiaoxi-miaqian/', img: '/images/projects/xiaoxi-miaqian/01.jpg', date: '2026-05' },
+    { title: 'Xiaoxi Jiazuo · Miaoqian', cn: '小西家作 · 庙前西街', sub: 'Dessert · Guangzhou Miaoqian Xijie', href: '/story/xiaoxi-miaqian/', img: '/images/projects/xiaoxi-miaqian/01.jpg', date: '2026-05' },
     { title: 'Erlun Sweetroom', cn: '贰轮甜室 · 禅城', sub: 'Dessert · Foshan Chancheng', href: '/story/erlun-cc/', img: '/images/projects/erlun-cc/01.jpg', date: '2026-04' },
     { title: 'Xiaoxi Jiazuo · Pavilion', cn: '小西家作 · 亭台', sub: 'Dessert · Guangzhou Taikoo Li', href: '/story/xiaoxi/', img: '/images/projects/xiaoxi/01.jpg', date: '2026-01' },
     { title: 'Guyongxing', cn: '顾涌兴', sub: 'Restaurant · Shanghai Panlong', href: '/story/guyongxing/', img: '/images/projects/guyongxing/01.jpg', date: '2026-01' },
