@@ -82,3 +82,14 @@
     line-height: 1.55;
   }
 }
+
+/* 菜单堆叠卡收尾：每张卡条目(li)限高 = 从自己唇位到容器底部（唇高 × (total-−index)）。
+   li 原本被网格格子拉伸到整容器高（约 3175px），其盒体经 transform 溢出把
+   滚动区撑到容器近两倍，滚到底是一大屏空白卡身；按序号收缩后溢出恰好归零，
+   滚动终点 = 容器底部 = 渐变结尾 + 亮卡唇（2026-11-01） */
+.main-links-item[data-astro-cid-pux6a34n] {
+  height: calc(var(--ud-lip, 151px) * (var(--total, 21) - var(--index, 0)));
+}
+.main-links[data-astro-cid-pux6a34n] .link[data-astro-cid-pux6a34n] {
+  height: 100%;
+}

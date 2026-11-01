@@ -151,14 +151,15 @@
   }
 
   /* ---------- 4. MENU 全屏菜单卡（全部项目最新在前 + All Projects） ---------- */
-  /* 现有 5 级由深到浅的菜单卡底色；超过 5 个项目时继续向浅灰过渡，All Projects 恒为浅色 */
-  var MENU_SHADES = ['#1A1A19', '#252523', '#32312F', '#42413E', '#575652'];
+  /* 卡底由深到浅：按首页 6 卡渐变（#161615→…→#4F4E4A→门外的光）的特征，
+     等比展开到任意卡数——全程连续插值 #161615→#8C8A85，指数 1.25 让
+     后段步进比前段更大（首页就是越往后越亮得快），避免 21 卡时"前几个
+     有变化、后面同色"；Index 卡仍恒为 #F1F0ED（2026-11-01） */
   function menuShade(i, total) {
-    if (i < MENU_SHADES.length) return MENU_SHADES[i];
-    var extra = Math.max(1, total - MENU_SHADES.length);
-    var t = Math.min(1, (i - MENU_SHADES.length + 1) / extra);
+    var last = Math.max(1, total - 1);   /* 最后一张项目卡的序号（total 为项目卡数，Index 卡另算） */
+    var t = Math.pow(Math.min(1, i / last), 1.25);
     function ch(a, b) { return Math.round(a + (b - a) * t); }
-    return 'rgb(' + ch(0x57, 0x8C) + ',' + ch(0x56, 0x8A) + ',' + ch(0x52, 0x85) + ')';
+    return 'rgb(' + ch(0x16, 0x8C) + ',' + ch(0x16, 0x8A) + ',' + ch(0x15, 0x85) + ')';
   }
   function menuItem(i, bg, href, small, title, transition) {
     var c = ' data-astro-cid-pux6a34n';
