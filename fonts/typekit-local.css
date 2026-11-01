@@ -1,0 +1,31 @@
+/*
+ * The Typekit service used to deliver this font or fonts for use on websites
+ * is provided by Adobe and is subject to these Terms of Use
+ * http://www.adobe.com/products/eulas/tou_typekit. For font license
+ * information, see the list below.
+ *
+ * joly-headline:
+ *   - http://typekit.com/eulas/0000000000000000774edff0
+ * new-spirit:
+ *   - http://typekit.com/eulas/00000000000000007735c4ba
+ *
+ * © 2009-2026 Adobe Systems Incorporated. All Rights Reserved.
+ */
+/*{"last_published":"2024-08-28 15:03:59 UTC"}*/
+
+
+
+@font-face {
+font-family:"new-spirit";
+src:url("/unknown-design/fonts/tk_69c2f9.woff2") format("woff2"),url("/unknown-design/fonts/tk_69c2f9.woff2") format("woff"),url("/unknown-design/fonts/tk_69c2f9.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
+}
+
+@font-face {
+font-family:"joly-headline";
+src:url("/unknown-design/fonts/tk_e6294e.woff2") format("woff2"),url("/unknown-design/fonts/tk_e6294e.woff2") format("woff"),url("/unknown-design/fonts/tk_e6294e.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
+}
+
+.tk-new-spirit { font-family: "UD Light","PingFang SC","Microsoft YaHei",sans-serif,serif; }
+.tk-joly-headline { font-family: "UD Display","PingFang SC","Microsoft YaHei",sans-serif,sans-serif; }
