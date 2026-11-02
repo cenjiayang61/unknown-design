@@ -31,7 +31,7 @@
     { title: 'Xiaoxi Jiazuo · Miaoqian', cn: '小西家作 · 庙前西街', sub: 'Dessert · Guangzhou Miaoqian Xijie', href: '/story/xiaoxi-miaqian/', img: '/images/projects/xiaoxi-miaqian/01.jpg', date: '2026-05' },
     { title: 'Erlun Sweetroom', cn: '贰轮甜室 · 禅城', sub: 'Dessert · Foshan Chancheng', href: '/story/erlun-cc/', img: '/images/projects/erlun-cc/01.jpg', date: '2026-04' },
     { title: 'Xiaoxi Jiazuo · Pavilion', cn: '小西家作 · 亭台', sub: 'Dessert · Guangzhou Taikoo Li', href: '/story/xiaoxi/', img: '/images/projects/xiaoxi/01.jpg', date: '2026-01' },
-    { title: 'Guyongxing', cn: '顾涌兴', sub: 'Restaurant · Shanghai Panlong', href: '/story/guyongxing/', img: '/images/projects/guyongxing/01.jpg', date: '2026-01' },
+    { title: 'Guyongxing', cn: '顾涌兴', sub: 'Qingtuan · Shanghai Panlong', href: '/story/guyongxing/', img: '/images/projects/guyongxing/01.jpg', date: '2026-01' },
     { title: 'Mini Bar', cn: 'Mini Bar', sub: 'Lounge Bar · Qingyuan', href: '/story/mini-bar/', img: '/images/projects/mini-bar/01.jpg', date: '2025-12' },
     { title: 'Chushishan', cn: '初拾山', sub: 'Restaurant · Foshan', href: '/story/chushishan/', img: '/images/projects/chushishan/01.jpg', date: '2025-12' },
     { title: 'Xiaoxi Jiazuo · Cloud', cn: '小西家作 · 云朵', sub: 'Dessert · Guangzhou Ali Center', href: '/story/xiaoxi-ali/', img: '/images/projects/xiaoxi-ali/01.jpg', date: '2025-04' },
@@ -46,7 +46,12 @@
     { title: 'olayks', cn: 'olayks', sub: 'Exhibition Booth · Shanghai', href: '/story/olayks/', img: '/images/projects/olayks/01.jpg', date: '2024-10' },
     { title: 'Rice Husk & Malt', cn: '稻壳语麦芽', sub: 'Bakery · Foshan Shunde', href: '/story/rice-malt/', img: '/images/projects/rice-malt/01.jpg', date: '2024-10' },
     { title: 'chuchulab', cn: 'chuchulab', sub: 'Patisserie · Guangzhou Polytrade', href: '/story/chuchulab/', img: '/images/projects/chuchulab/01.jpg', date: '2024-01' },
-    { title: 'soho !', cn: 'soho !', sub: 'Café · Foshan Nanhai', href: '/story/soho/', img: '/images/projects/soho/01.jpg', date: '2023-05' }
+    { title: 'soho !', cn: 'soho !', sub: 'Café · Foshan Nanhai', href: '/story/soho/', img: '/images/projects/soho/01.jpg', date: '2023-05' },
+    { title: 'Rocco', cn: '露可日式洋果子', sub: 'Patisserie & Café · Zhenjiang', href: '/story/rocco/', img: '/images/projects/rocco/08.jpg', date: '2023-02' },
+    { title: 'Fireside Café', cn: 'Fireside Café', sub: 'Café · Foshan Chancheng', href: '/story/fireside/', img: '/images/projects/fireside/01.jpg', date: '2022-07' },
+    { title: 'Yelanzi Bakery', cn: '野篮子窑烤面包屋', sub: 'Kiln Bakery · Foshan Chancheng', href: '/story/yelanzi/', img: '/images/projects/yelanzi/05.jpg', date: '2022-06' },
+    { title: 'Donkee', cn: 'Donkee', sub: 'Brunch & Café · Foshan Shunde', href: '/story/donkee/', img: '/images/projects/donkee/01.jpg', date: '2022-06' },
+    { title: 'NEST', cn: 'NEST', sub: 'Café & Dessert · Foshan Chancheng', href: '/story/nest/', img: '/images/projects/nest/01.jpg', date: '2021-12' }
   ];
 
   /* 首页堆叠卡由暗到光的灰阶（第 6 张 All Projects 为浅色"门外的光"） */
